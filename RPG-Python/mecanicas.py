@@ -1,6 +1,7 @@
 from time import sleep
-from rich import print
 from random import randint, choices, choice
+from rich import print
+
 
 def monstro_dmg(monstro, jogador):
     # dano_monstro =  monstro.dano - jogador.defesa
@@ -51,9 +52,7 @@ def batalha(jogador, monstro):
 
         #case 1 é a parte de ataque! 
         case 1:
-            # dano_jogador = jogador.dano - monstro.defesa 
-            # dano_magico_jogador =  jogador.dano_magico - monstro.defesa_magica
-
+          
             defesa = monstro.defesa // 2
             variancia_dmg_jogador = randint(defesa, monstro.defesa)
 
@@ -61,8 +60,9 @@ def batalha(jogador, monstro):
 
             dano_magico_jogador = jogador.dano_magico - variancia_dmg_jogador
 
-            #Validação da resposta do player variavel = opcao
-            sleep(0.5)
+            #sleep(0.5)
+
+            #Validação da resposta do player; variavel = opcao
             while True:
                 try:
                     opcao = int(input(f'''\033[34mVoçê quer usar ataque fisico ou magico?\033[m
@@ -88,28 +88,37 @@ def batalha(jogador, monstro):
                     print(f'O jogador {jogador.nome} atacou o montro [red]{monstro.nome}[/] com um ataque magico e infligiu [red]{dano_magico_jogador}[/] de dano!')
 
                     monstro.hp -= dano_magico_jogador
-                    sleep(0.5)
 
-                monstro_dmg(monstro,jogador)
+                    #sleep(0.5)
+
+                if monstro.hp >0:
+                    monstro_dmg(monstro,jogador)
 
             else:
                 monstro_dmg(monstro, jogador)
-                if jogador.hp < 0:
+
+                if jogador.hp < 1:
                     return jogador.hp, monstro.hp
+                
                 else:
                     if opcao == 1: 
                         print(f'O jogador {jogador.nome} atacou o montro [red]{monstro.nome}[/] com um ataque fisico e infligiu [red]{dano_jogador}[/] de dano!')
 
                         monstro.hp -= dano_jogador
-                        sleep(0.5)
+
+                        #sleep(0.5)
 
                     else:
                         print(f'O jogador {jogador.nome} atacou o montro [red]{monstro.nome}[/] com um ataque magico e infligiu [red]{dano_magico_jogador}[/] de dano!')
 
                         monstro.hp -= dano_magico_jogador
-                        sleep(0.5)
+
+                        #sleep(0.5)
 
             print("-"  *40)
+            #validação do hp do mosntro ta dentro da função de upar level. se o hp dele for menor que 1 ja da ele como morto e upa os status do jogador
+            jogador.upar_level(monstro)
+
             return jogador.hp, monstro.hp
 
 
@@ -129,7 +138,9 @@ def batalha(jogador, monstro):
 
                 
             print("-"*40)
-            sleep(0.5)
+
+            #sleep(0.5)
+            
             return jogador.hp
                
 

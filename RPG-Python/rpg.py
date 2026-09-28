@@ -2,10 +2,9 @@ from random import choices
 from time import sleep
 from Monstro import *
 from Boneco import *
+from mecanicas import *
+
 from rich import print
-from Interface import *
-
-
 
 
 

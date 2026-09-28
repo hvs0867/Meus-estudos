@@ -93,7 +93,7 @@ class MonstroMgc:
                 self.defesa_magica = 8
                 self.velocidade = 5
                 self.critico = 5
-                self.xp =35
+                self.xp =3500
                 self.moedas = 25
 
 
@@ -114,7 +114,7 @@ class MonstroMgc:
                 self.hp = 130
                 self.dano = 10
                 self.defesa = 6
-                self.dano_magico =34
+                self.dano_magico = 20
                 self.defesa_magica = 15
                 self.velocidade = 6
                 self.critico = 10

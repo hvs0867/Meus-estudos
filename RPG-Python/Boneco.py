@@ -1,5 +1,6 @@
-from rich import print
 from time import sleep
+
+from rich import print
 
 class Personagem:
     def __init__(self, nome:str):
@@ -29,6 +30,23 @@ class Personagem:
 
 
 
+    def upar_level(self, monstro):
+        if monstro.hp < 1:
+
+            self.xp += monstro.xp
+
+            if self.xp >= self.xp_lvl_up:
+                self.xp = 0 
+                self.xp_lvl_up += 30
+                self.hp += 10
+                self.dano += 1.5
+                self.defesa += 1
+                self.mp += 10
+                self.dano_magico += 1.2
+                self.level += 1
+                self.defesa_magica += 1
+
+    
     def escolha_classe(self, valor):
         classes = ['Guerreiro', 'Mago', 'Ladino']
 
