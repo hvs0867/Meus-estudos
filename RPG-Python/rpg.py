@@ -3,7 +3,6 @@ from time import sleep
 from Monstro import *
 from Boneco import *
 from mecanicas import *
-
 from rich import print
 
 
@@ -18,7 +17,12 @@ def gerar_monstro():
 
 def main():
     print('OLA, GUERREIRO! SEJA BEM VINDO AO [red]PYRPG![/] VAMOS COMECA A CRIAR O SEU PERSONAGEM!')
-    nome = input(" INSIRA O NOME DO DEU PERSNAGEM: ")
+    while True:
+        nome = input(" INSIRA O NOME DO DEU PERSNAGEM: ")
+        if len(nome) > 16:
+            print("Porfavor insira um nome com menos caracteres (maximo é 16)")
+        else:
+            break
 
     Jogador = Personagem(nome)
     #sleep(0.8)
@@ -29,8 +33,12 @@ def main():
 
     monstro = gerar_monstro()
 
-    while Jogador.hp > 0 and monstro.hp > 0:
-        batalha(Jogador, monstro)
+    while True:
+
+        if Jogador.hp > 0 and monstro.hp > 0:
+           if batalha(Jogador, monstro):
+                break
+    
 
     Jogador.mostra(Jogador)
 

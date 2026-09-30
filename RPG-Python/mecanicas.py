@@ -11,7 +11,7 @@ def monstro_dmg(monstro, jogador):
     variancia_montro = randint(defesa, jogador.defesa)
     dano_monstro = monstro.dano - variancia_montro
 
-    dano_magico_monstro = monstro.dano_magico - variancia_montro
+    dano_magico_monstro = abs(monstro.dano_magico - variancia_montro)
     
     
     #O MONSTRO SEMPRE VAI ESCOLHER O TIPO DE ATAQUE QUE VAI DAR MAIS DANO
@@ -142,7 +142,24 @@ def batalha(jogador, monstro):
             #sleep(0.5)
             
             return jogador.hp
-               
+
+
+        case 3:
+            pass
+
+
+
+        case 4:
+            chance_fujir = choices(['Fujiu', 'Nao Fugiu'], weights=(30,70), k=1 )[0]
+
+            if chance_fujir == "Fujiu":
+                print(f'Voçê fujiu com sucesso do monstro [red]{monstro.nome}[/]')
+
+                return True
+            
+            else:
+                print(f'Voçê não consegui fugir do monstro [red]{monstro.nome}[/]')
+                monstro_dmg(monstro, jogador)
 
 
 
