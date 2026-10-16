@@ -4,26 +4,21 @@ from rich import print
 
 
 def monstro_dmg(monstro, jogador):
-    # dano_monstro =  monstro.dano - jogador.defesa
-    # dano_magico_monstro =  monstro.dano_magico - jogador.defesa_magica
 
     defesa = jogador.defesa // 2
     variancia_montro = randint(defesa, jogador.defesa)
-    dano_monstro = monstro.dano - variancia_montro
+    dano_monstro = max(0, monstro.dano - variancia_montro)
 
-    dano_magico_monstro = abs(monstro.dano_magico - variancia_montro)
-    
-    
+    dano_magico_monstro = max(0, abs(monstro.dano_magico - variancia_montro))
+
     #O MONSTRO SEMPRE VAI ESCOLHER O TIPO DE ATAQUE QUE VAI DAR MAIS DANO
     if dano_monstro > dano_magico_monstro:
         print(f'[red]{monstro.nome}[/] infligiu [red]{dano_monstro} de dano fisico[/]  no Jogador!')
+        jogador.hp = max(0, jogador.hp - dano_monstro)
 
-        jogador.hp -= dano_monstro
-    
     else:
         print(f'[red]{monstro.nome}[/] infligiu [red]{dano_magico_monstro} de dano magico[/]  no Jogador!')
-
-        jogador.hp -= dano_magico_monstro
+        jogador.hp = max(0, jogador.hp - dano_magico_monstro)
 
 
 
@@ -38,8 +33,8 @@ def batalha(jogador, monstro):
  [1]Atacar | [2]Esquivar
  [3]Inventario| [4]Fujir
  >>>>> '''))
-            if 1 < pergunta > 4:
-                print('[red]OPÇÃO INEXISTENTE![/]') 
+            if pergunta < 1 or pergunta > 4:
+                print('[red]OPÇÃO INEXISTENTE![/]')
             else:
                 break
 
@@ -56,9 +51,8 @@ def batalha(jogador, monstro):
             defesa = monstro.defesa // 2
             variancia_dmg_jogador = randint(defesa, monstro.defesa)
 
-            dano_jogador = jogador.dano - variancia_dmg_jogador
-
-            dano_magico_jogador = jogador.dano_magico - variancia_dmg_jogador
+            dano_jogador = max(0, jogador.dano - variancia_dmg_jogador)
+            dano_magico_jogador = max(0, jogador.dano_magico - variancia_dmg_jogador)
 
             #sleep(0.5)
 
@@ -98,28 +92,27 @@ def batalha(jogador, monstro):
                 monstro_dmg(monstro, jogador)
 
                 if jogador.hp < 1:
-                    return jogador.hp, monstro.hp
-                
+                    return False
+
+                if opcao == 1:
+                    print(f'O jogador {jogador.nome} atacou o montro [red]{monstro.nome}[/] com um ataque fisico e infligiu [red]{dano_jogador}[/] de dano!')
+
+                    monstro.hp -= dano_jogador
+
+                    #sleep(0.5)
+
                 else:
-                    if opcao == 1: 
-                        print(f'O jogador {jogador.nome} atacou o montro [red]{monstro.nome}[/] com um ataque fisico e infligiu [red]{dano_jogador}[/] de dano!')
+                    print(f'O jogador {jogador.nome} atacou o montro [red]{monstro.nome}[/] com um ataque magico e infligiu [red]{dano_magico_jogador}[/] de dano!')
 
-                        monstro.hp -= dano_jogador
+                    monstro.hp -= dano_magico_jogador
 
-                        #sleep(0.5)
-
-                    else:
-                        print(f'O jogador {jogador.nome} atacou o montro [red]{monstro.nome}[/] com um ataque magico e infligiu [red]{dano_magico_jogador}[/] de dano!')
-
-                        monstro.hp -= dano_magico_jogador
-
-                        #sleep(0.5)
+                    #sleep(0.5)
 
             print("-"  *40)
             #validação do hp do mosntro ta dentro da função de upar level. se o hp dele for menor que 1 ja da ele como morto e upa os status do jogador
             jogador.upar_level(monstro)
 
-            return jogador.hp, monstro.hp
+            return False
 
 
 
@@ -140,13 +133,23 @@ def batalha(jogador, monstro):
             print("-"*40)
 
             #sleep(0.5)
-            
-            return jogador.hp
+
+            return False
 
 
         case 3:
-            pass
-
+            jogador.mostrar_inventario()
+            while True:
+                try:
+                    opcao_inventario = int(input('''[1] Usar poção\n[2] Fechar inventário\n>>>> '''))
+                    if opcao_inventario == 1:
+                        jogador.usar_pocao()
+                        return False
+                    if opcao_inventario == 2:
+                        return False
+                    print('[red]Opção inválida.[/]')
+                except ValueError:
+                    print('[red]Opção inválida.[/]')
 
 
         case 4:
@@ -154,13 +157,12 @@ def batalha(jogador, monstro):
 
             if chance_fujir == "Fujiu":
                 print(f'Voçê fujiu com sucesso do monstro [red]{monstro.nome}[/]')
-
                 return True
-            
+
             else:
                 print(f'Voçê não consegui fugir do monstro [red]{monstro.nome}[/]')
                 monstro_dmg(monstro, jogador)
-
+                return False
 
 
   

@@ -24,7 +24,7 @@ class Personagem:
         self.moeda = 10
         self.armadura = None
         self.arma = None
-
+        self.inventario = {'poção': 2, 'elixir': 1}
 
         self.status()
 
@@ -32,19 +32,26 @@ class Personagem:
 
     def upar_level(self, monstro):
         if monstro.hp < 1:
-
             self.xp += monstro.xp
+            print(f'[green]{self.nome} ganhou {monstro.xp} XP![/]')
 
-            if self.xp >= self.xp_lvl_up:
-                self.xp = 0 
+            while self.xp >= self.xp_lvl_up:
+                self.xp -= self.xp_lvl_up
                 self.xp_lvl_up += 30
-                self.hp += 10
-                self.dano += 1.5
-                self.defesa += 1
-                self.mp += 10
-                self.dano_magico += 1.2
                 self.level += 1
+                self.max_hp += 15
+                self.hp = self.max_hp
+                self.max_mp += 10
+                self.mp = self.max_mp
+                self.dano += 2
+                self.defesa += 1
+                self.dano_magico += 2
                 self.defesa_magica += 1
+                self.velocidade += 1
+                print(f'[yellow]{self.nome} subiu para o nível {self.level}![/]')
+
+            return True
+        return False
 
     
     def escolha_classe(self, valor):
@@ -104,8 +111,31 @@ class Personagem:
 
 
 
+    def usar_pocao(self):
+        if self.inventario.get('poção', 0) <= 0:
+            print('[red]Você não tem poções disponíveis.[/]')
+            return False
+
+        self.inventario['poção'] -= 1
+        cura = min(25, self.max_hp - self.hp)
+        self.hp += cura
+        print(f'[green]{self.nome} usou uma poção e recuperou {cura} de HP.[/]')
+        return True
+
+
+    def mostrar_inventario(self):
+        print(f'Inventário de {self.nome}:')
+        if not self.inventario:
+            print('Vazio')
+            return
+
+        for item, quantidade in self.inventario.items():
+            print(f' - {item}: {quantidade}')
+
+
     def mostra(self, jog):
         print('Estado do jogador')
+        #vars = retorna o dicionario de um item
         for i,v in vars(jog).items():
             print(f'[lightblue]{i} [/] = {v} | ')
         print()

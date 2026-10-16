@@ -3,9 +3,8 @@ from random import choices
 class Monstro:
     nomes = ['Slime', 'Goblin', 'Lobo', 'Esqueleto', "Orc", 'Troll']
 
-    escolhido = choices(nomes , weights=[30, 30, 30, 20, 10, 8], k=1)[0]
-
     def __init__(self):
+        self.nome = choices(self.nomes, weights=[30, 30, 30, 20, 10, 8], k=1)[0]
         self.nivel = 1
         self.dano = 10
         self.hp = 100
@@ -15,14 +14,13 @@ class Monstro:
         self.critico = 2
         self.xp = 10
         self.moedas = 20
-        self.nome = self.escolhido
         self.dano_magico = 10
 
         self.status()
 
 
     def status(self):
-        match self.escolhido:
+        match self.nome:
             case 'Goblin':
                 self.hp = 70
                 self.dano = 11
@@ -64,9 +62,8 @@ class Monstro:
 class MonstroMgc:
     nomes = ['Slime Magico', 'Mago Goblin', 'Feiticeiro']
 
-    escolha = choices(nomes, weights=[40,40, 10], k=1)[0]
-
     def __init__(self):
+        self.nome = choices(self.nomes, weights=[40,40, 10], k=1)[0]
         self.nivel = 1
         self.dano = 10
         self.dano_magico = 5
@@ -77,13 +74,12 @@ class MonstroMgc:
         self.critico = 2
         self.xp = 10
         self.moedas = 20
-        self.nome = self.escolha
 
         self.status()
 
 
     def status(self):
-        match self.escolha:
+        match self.nome:
             case 'Slime Magico':
                 self.nivel = 3
                 self.hp = 90
@@ -119,8 +115,7 @@ class MonstroMgc:
                 self.velocidade = 6
                 self.critico = 10
                 self.xp = 90
-                self.moedas = 50        
-            
+                self.moedas = 50
 
     def mostra(self, mons):
         print('Estado do Monstro Magico')
@@ -129,10 +124,24 @@ class MonstroMgc:
         print()
 
 
-    
+class Boss(MonstroMgc):
+    def __init__(self):
+        super().__init__()
+        self.nome = 'Rei das Sombras'
+        self.nivel = 10
+        self.hp = 220
+        self.dano = 22
+        self.dano_magico = 28
+        self.defesa = 12
+        self.defesa_magica = 14
+        self.velocidade = 10
+        self.critico = 15
+        self.xp = 200
+        self.moedas = 150
 
 
 if __name__ == "__main__":
     m1 = MonstroMgc()
-
     m1.mostra(m1)
+    b = Boss()
+    b.mostra(b)
